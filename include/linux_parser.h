@@ -5,6 +5,8 @@
 #include <regex>
 #include <string>
 
+using std::string;
+
 namespace LinuxParser {
 // Paths
 const std::string kProcDirectory{"/proc/"};
@@ -26,6 +28,13 @@ int TotalProcesses();
 int RunningProcesses();
 std::string OperatingSystem();
 std::string Kernel();
+  
+  
+//helper function to do the parsing
+bool BothAreSpaces(char c1, char c2);
+
+// helper function to extrator processor information
+int ProcessExtractor(string valueToExtract);
 
 // CPU
 enum CPUStates {
