@@ -3,9 +3,17 @@
 #include "format.h"
 
 using std::string;
+using std::to_string;
 
-// TODO: Complete this helper function
-// INPUT: Long int measuring seconds
-// OUTPUT: HH:MM:SS
-// REMOVE: [[maybe_unused]] once you define the function
-string Format::ElapsedTime(long seconds[[maybe_unused]]) { return string(); }
+string Format::ElapsedTime(long seconds) { 
+	
+  	const int secondsPerMinute =60;
+    const int secondsPerHour =3600;
+     
+    long _seconds = seconds % secondsPerMinute;
+    long _minutes = (seconds / secondsPerMinute) %secondsPerMinute;
+    long _hours   = seconds /secondsPerHour; 
+    string output = to_string(_hours) + ':' + to_string(_minutes) + ':' + to_string(_seconds);  
+  
+    return output;
+}

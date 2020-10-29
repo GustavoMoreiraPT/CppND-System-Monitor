@@ -4,7 +4,7 @@
 // TODO: Return the aggregate CPU utilization
 float Processor::Utilization() { 
   
-	float activeJiffies = float(LinuxParser::ActiveJiffies());
-    float totalJiffies =  float(LinuxParser::Jiffies());
+	float const activeJiffies = static_cast<float>(LinuxParser::ActiveJiffies());
+    float const totalJiffies =  static_cast<float>(LinuxParser::Jiffies());
     return activeJiffies / totalJiffies; 
 }
