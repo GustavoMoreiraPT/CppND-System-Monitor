@@ -38,15 +38,14 @@ string LinuxParser::OperatingSystem() {
   return value;
 }
 
-// DONE: An example of how to read data from the filesystem
 string LinuxParser::Kernel() {
-  string os, kernel;
+  string os, kernel, version;
   string line;
   std::ifstream stream(kProcDirectory + kVersionFilename);
   if (stream.is_open()) {
     std::getline(stream, line);
     std::istringstream linestream(line);
-    linestream >> os >> kernel;
+    linestream >> os >> version >> kernel;
   }
   return kernel;
 }
@@ -71,7 +70,6 @@ vector<int> LinuxParser::Pids() {
   return pids;
 }
 
-// TODO: Read and return the system memory utilization
 float LinuxParser::MemoryUtilization() { 
   string unparsedMemTotal, unparsedMemFree;
   string key;
@@ -95,10 +93,9 @@ float LinuxParser::MemoryUtilization() {
   float memTotal = ::atof(unparsedMemTotal.c_str());
   float memFree = ::atof(unparsedMemFree.c_str());
   
-  return memFree / memTotal * 100;
+  return memFree / memTotal;
 }
 
-// TODO: Read and return the system uptime
 long LinuxParser::UpTime() {
   string uptime;
   string key;
@@ -152,7 +149,7 @@ long LinuxParser::ActiveJiffies() {
   auto values = LinuxParser::CpuUtilization();
   
   auto sumJiffies = 0;
-  for(int i = 0; i < values.size(); i++){
+  for(unsigned int i = 0; i < values.size(); i++){
     sumJiffies = sumJiffies + std::stol(values[i]);
   }
   
@@ -164,7 +161,7 @@ long LinuxParser::IdleJiffies() {
   auto values = LinuxParser::CpuUtilization();
   
   auto sumIdleJiffies = 0;
-  for(int i = 0; i < values.size(); i++){
+  for(unsigned int i = 0; i < values.size(); i++){
     if(i == 3 || i == 4)
     sumIdleJiffies = sumIdleJiffies + std::stol(values[i]);
   }
@@ -291,7 +288,6 @@ string LinuxParser::User(int pid) {
 long LinuxParser::UpTime(int pid) {
   std::string line, value;
   
-  int counterUptime = 0;
   long time = 0;
   string noUse;
   
@@ -299,10 +295,10 @@ long LinuxParser::UpTime(int pid) {
   if (filestream.is_open()) {
     std::getline(filestream, line);
     std::stringstream stream(line);
-    for(int i = 1; i < 22; i++) {
+    for(unsigned int i = 1; i < 22; i++) {
       stream >> noUse;
     }
     stream >> time;
   }
-  return time / sysconf(_SC_CLK_TCK);
+  return UpTime() - time / sysconf(_SC_CLK_TCK);
 }
