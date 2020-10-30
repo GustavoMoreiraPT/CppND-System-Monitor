@@ -50,5 +50,5 @@ long int Process::UpTime() {
 }
 
 bool Process::operator<(Process const& a) const {
-  	return std::stol(LinuxParser::Ram(this->_pid)) < std::stol(LinuxParser::Ram(a._pid));
+  	return LinuxParser::convertValues(LinuxParser::Ram(this->_pid)) < LinuxParser::convertValues(LinuxParser::Ram(a._pid));
 }
