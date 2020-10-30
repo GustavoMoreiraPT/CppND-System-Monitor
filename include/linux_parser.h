@@ -35,7 +35,14 @@ bool BothAreSpaces(char c1, char c2);
 
 // helper function to extrator processor information
 int ProcessExtractor(string valueToExtract);
-
+  
+template <typename T>
+T findValueByKey(std::string const &keyFilter, std::string const &filename);
+template <typename T>
+T getValueOfFile(std::string const &filename);
+  
+long convertValues(std::string const &value);
+  
 // CPU
 enum CPUStates {
   kUser_ = 0,
